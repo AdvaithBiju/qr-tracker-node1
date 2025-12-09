@@ -124,15 +124,6 @@ function renderPage(title, content) {
         color: #022c22;
       }
       .btn-primary:hover { filter: brightness(1.05); }
-      .btn-ghost {
-        background: transparent;
-        color: var(--text-muted);
-        border: 1px solid rgba(148, 163, 184, 0.4);
-      }
-      .btn-ghost:hover {
-        border-color: var(--accent);
-        color: var(--accent);
-      }
       .meta {
         margin-top: 12px;
         font-size: 0.8rem;
@@ -225,7 +216,7 @@ app.get("/tag/:id", (req, res) => {
             </div>
 
             <div class="field">
-              <label class="label">Phone number</</label>
+              <label class="label">Phone number</label>
               <input class="input" type="text" name="phone" required />
             </div>
 
@@ -248,13 +239,13 @@ app.get("/tag/:id", (req, res) => {
 
           <div class="meta">
             Anyone scanning this QR later will see these details.
-            You can update them anytime using the edit option.
+            These details cannot be edited later, so double-check before saving.
           </div>
         `
       )
     );
   } else {
-    // details view
+    // details view (NO EDIT BUTTON NOW)
     res.send(
       renderPage(
         `Tag ${id} details`,
@@ -283,10 +274,6 @@ app.get("/tag/:id", (req, res) => {
             </div>
           </div>
 
-          <div class="btn-row">
-            <a href="/tag/${id}/edit" class="btn btn-ghost">✏️ Edit details</a>
-          </div>
-
           <div class="meta">
             Share this QR only with people you trust.
             Anyone with the QR can view these details.
@@ -305,57 +292,7 @@ app.post("/tag/:id", (req, res) => {
   res.redirect(`/tag/${id}`);
 });
 
-// Edit form
-app.get("/tag/:id/edit", (req, res) => {
-  const id = req.params.id;
-  const data = tagData[id];
-  if (!data) return res.redirect(`/tag/${id}`);
-
-  res.send(
-    renderPage(
-      `Edit tag ${id}`,
-      `
-        <div class="card-header">
-          <div class="title">Edit Tag Details</div>
-          <div class="badge">ID: ${id}</div>
-        </div>
-        <p class="subtitle">
-          Update your contact information. Changes are saved instantly.
-        </p>
-
-        <form method="POST" action="/tag/${id}/edit">
-          <div class="field">
-            <label class="label">Full name</label>
-            <input class="input" type="text" name="name" value="${data.name}" required />
-          </div>
-
-          <div class="field">
-            <label class="label">Phone number</label>
-            <input class="input" type="text" name="phone" value="${data.phone}" required />
-          </div>
-
-          <div class="field">
-            <label class="label">Message for finder (optional)</label>
-            <textarea class="textarea" name="message" rows="3">${data.message || ""}</textarea>
-          </div>
-
-          <div class="btn-row">
-            <a href="/tag/${id}" class="btn btn-ghost">⬅ Back</a>
-            <button type="submit" class="btn btn-primary">Save changes</button>
-          </div>
-        </form>
-      `
-    )
-  );
-});
-
-// Handle edit submit
-app.post("/tag/:id/edit", (req, res) => {
-  const id = req.params.id;
-  const { name, phone, message } = req.body;
-  tagData[id] = { name, phone, message };
-  res.redirect(`/tag/${id}`);
-});
+// 🚫 EDIT ROUTES REMOVED
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
