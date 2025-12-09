@@ -1,7 +1,7 @@
 const express = require("express");
 const app = express();
 
-const port = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5000;
 
 // Read form data
 app.use(express.urlencoded({ extended: true }));
@@ -225,7 +225,7 @@ app.get("/tag/:id", (req, res) => {
             </div>
 
             <div class="field">
-              <label class="label">Phone number</label>
+              <label class="label">Phone number</</label>
               <input class="input" type="text" name="phone" required />
             </div>
 
@@ -357,6 +357,6 @@ app.post("/tag/:id/edit", (req, res) => {
   res.redirect(`/tag/${id}`);
 });
 
-app.listen(port, () => {
-  console.log(`Server running on port ${port}`);
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
 });
